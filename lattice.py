@@ -377,7 +377,6 @@ def RVerify(message, pk_list, position, sk, G, sigma):
     return 1
 
 
-
 restart_counter = []
 for i in range (10):
     restart_counter.append([])
@@ -388,8 +387,8 @@ all_verify_time = []
 all_total_time = []
 
 
-# testing 
-for p_2 in range (1):
+# generate keys for testing. Change range(2) for larger ring size.
+for p_2 in range (2):
     key_list_size = 2**(p_2 + 1)
     G = RSetup(M, N, DEGREE)
     message = 'the'
@@ -401,12 +400,15 @@ for p_2 in range (1):
         sk_list.append(sk)
     pk_list = np.asarray(pk_list)
     sk_list = np.asarray(sk_list)
-    
+
+# test sign and verify. Change range(2) for larger ring size.
+for p_2 in range (2):
     sign_time = []
     verify_time = []
     total_time = []
-    
-    for trails in range (10):
+
+#     Change range(1) for testing for multiple times.
+    for trails in range (1):
         times_restart = [0]
         position = secrets.randbelow(key_list_size)
         start_time = time.time()
@@ -434,16 +436,17 @@ print(restart_counter)
 with open("LWE Ring Signature Time Analysis Long.txt", "w") as text_file:
     text_file.write("N Size\t")
     text_file.write("2 Sign\tVerify\tTotal\tTimes of Restart\t")
-#    text_file.write("4 Sign\tVerify\tTotal\tTimes of Restart\t")
+    text_file.write("4 Sign\tVerify\tTotal\tTimes of Restart\t")
 #    text_file.write("8 Sign\tVerify\tTotal\tTimes of Restart\t")
 #    text_file.write("16 Sign\tVerify\tTotal\tTimes of Restart\t")
 #    text_file.write("32 Sign\tVerify\tTotal\tTimes of Restart\t")
 #    text_file.write("64 Sign\tVerify\tTotal\tTimes of Restart\t")
 #    text_file.write("128 Sign\tVerify\tTotal\tTimes of Restart\t")
 #    text_file.write("256 Sign\tVerify\tTotal\tTimes of Restart\n")
-    for i in range (1):
+    for i in range (2):
         text_file.write("%d\t" % (i))
-        for j in range (10):
+        #     Change range(1) for testing for multiple times.
+        for j in range (1):
             text_file.write("%s\t%s\t%s\t%s\t" % (all_sign_time[j][i], 
                                                   all_verify_time[j][i], all_total_time[j][i], 
                                                   restart_counter[j][i]))
