@@ -378,18 +378,18 @@ def RVerify(message, pk_list, position, sk, G, sigma):
 
 
 
-restart_counter_long = []
+restart_counter = []
 for i in range (10):
-    restart_counter_long.append([])
+    restart_counter.append([])
 
 
-all_sign_time_long = []
-all_verify_time_long = []
-all_total_time_long = []
+all_sign_time = []
+all_verify_time = []
+all_total_time = []
 
 
 # testing 
-for p_2 in range (4):
+for p_2 in range (1):
     key_list_size = 2**(p_2 + 1)
     G = RSetup(M, N, DEGREE)
     message = 'the'
@@ -417,10 +417,10 @@ for p_2 in range (4):
             break
         verify_time.append(time.time() - middle_time)
         total_time.append(time.time() - start_time)
-        restart_counter_long[p_2].append(times_restart[0])
-    all_sign_time_long.append(sign_time)
-    all_verify_time_long.append(verify_time)
-    all_total_time_long.append(total_time)
+        restart_counter[p_2].append(times_restart[0])
+    all_sign_time.append(sign_time)
+    all_verify_time.append(verify_time)
+    all_total_time.append(total_time)
 
 
 
@@ -434,17 +434,17 @@ print(restart_counter)
 with open("LWE Ring Signature Time Analysis Long.txt", "w") as text_file:
     text_file.write("N Size\t")
     text_file.write("2 Sign\tVerify\tTotal\tTimes of Restart\t")
-    text_file.write("4 Sign\tVerify\tTotal\tTimes of Restart\t")
-    text_file.write("8 Sign\tVerify\tTotal\tTimes of Restart\t")
-    text_file.write("16 Sign\tVerify\tTotal\tTimes of Restart\t")
+#    text_file.write("4 Sign\tVerify\tTotal\tTimes of Restart\t")
+#    text_file.write("8 Sign\tVerify\tTotal\tTimes of Restart\t")
+#    text_file.write("16 Sign\tVerify\tTotal\tTimes of Restart\t")
 #    text_file.write("32 Sign\tVerify\tTotal\tTimes of Restart\t")
 #    text_file.write("64 Sign\tVerify\tTotal\tTimes of Restart\t")
 #    text_file.write("128 Sign\tVerify\tTotal\tTimes of Restart\t")
 #    text_file.write("256 Sign\tVerify\tTotal\tTimes of Restart\n")
-    for i in range (10):
+    for i in range (1):
         text_file.write("%d\t" % (i))
-        for j in range (8):
-            text_file.write("%s\t%s\t%s\t%s\t" % (all_sign_time_long[j][i], 
-                                                  all_verify_time_long[j][i], all_total_time_long[j][i], 
-                                                  restart_counter_long[j][i]))
+        for j in range (10):
+            text_file.write("%s\t%s\t%s\t%s\t" % (all_sign_time[j][i], 
+                                                  all_verify_time[j][i], all_total_time[j][i], 
+                                                  restart_counter[j][i]))
         text_file.write("\n")
