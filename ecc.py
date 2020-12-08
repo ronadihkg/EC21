@@ -361,15 +361,19 @@ def V(pk_list, this_u, P, pi):
 # P: a point on ECC
 # a: a list of all Cs
 def NISA_Proof(pk_list, P, c, a):
-    ### TODO: change generator_u to u^{H(P,u,c)}
+    my_string = pt_to_string(P) + pt_to_string(generator_u) + str(c)
+    h = int(sha256(my_string.encode()).hexdigest(), 16)
+    uprime = generator_u * h
     b = [1] * len(a)
-    return P_proof(pk_list, generator_u, b, a, [], [])
+    return P_proof(pk_list, uprime, b, a, [], [])
 
 
 def NISA_Verify(pk_list, P, c, pi):
-    ### TODO: change generator_u to u^{H(P,u,c)}
-    P_prime = P + generator_u * c
-    return V(pk_list, generator_u, P_prime, pi)
+    my_string = pt_to_string(P) + pt_to_string(generator_u) + str(c)
+    h = int(sha256(my_string.encode()).hexdigest(), 16)
+    uprime = generator_u * h
+    P_prime = P + uprime * c
+    return V(pk_list, uprime, P_prime, pi)
 
 
 def full_Sign(m, pk_list, sk, j):
